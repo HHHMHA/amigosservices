@@ -1,17 +1,15 @@
 package com.amigoscode.customer.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +17,7 @@ import javax.persistence.GenerationType;
 public class Customer {
     @Id
     @SequenceGenerator(
-            name="customer_id_sequence",
-            sequnceName = "customer_id_sequence"
+            name="customer_id_sequence"
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -30,4 +27,17 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || Hibernate.getClass( this ) != Hibernate.getClass( o ) ) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals( id, customer.id );
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
