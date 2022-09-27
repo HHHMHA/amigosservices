@@ -1,6 +1,8 @@
 package com.amigoscode.customer.services;
 
 import com.amigoscode.clients.fraud.FraudClient;
+import com.amigoscode.clients.notification.NotificationClient;
+import com.amigoscode.clients.notification.NotificationRequest;
 import com.amigoscode.customer.dtos.CustomerRegistrationRequest;
 import com.amigoscode.customer.models.Customer;
 import com.amigoscode.customer.repositories.CustomerRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
     private final CustomerRepository repository;
     private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
     public void registerCustomer( CustomerRegistrationRequest request ) {
         Customer customer = Customer.builder()
@@ -26,6 +29,11 @@ public class CustomerService {
         if ( response.isFraudster() ) {
             throw new IllegalStateException("fraudster");
         }
-        // TODO: send notification
+        // TODO: make async
+        notificationClient.sendNotification( new NotificationRequest(
+                customer.getId(),
+                customer.getEmail(),
+                String.format( "Hi %s welcome to Amigoscode", customer.getFirstName() )
+        ) );
     }
 }
