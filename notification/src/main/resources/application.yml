@@ -1,6 +1,5 @@
 server:
   port: 8081
-
 spring:
   application:
     name: notification
@@ -8,18 +7,18 @@ spring:
     username: 'amigoscode'
     url: jdbc:postgresql://localhost:5432/notification
     password: 'password'
-    jpa:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
-          format_sql: 'true'
+  jpa:
+    properties:
       hibernate:
-        ddl-auto: update
-      show-sql: 'true'
-      zipkin:
-        base-url: http://localhost:9411
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
   rabbitmq:
     addresses: localhost:5672
+  zipkin:
+    base-url: http://localhost:9411
 eureka:
   client:
     service-url:
