@@ -1,0 +1,33 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: notification
+  datasource:
+    username: 'amigoscode'
+    url: jdbc:postgresql://postgres:5432/notification
+    password: 'password'
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  rabbitmq:
+    addresses: rabbitmq:5672
+  zipkin:
+    base-url: http://zipkin:9411
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
